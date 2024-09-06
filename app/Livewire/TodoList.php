@@ -23,13 +23,23 @@ class TodoList extends Component
       $this->reset('name');
       session()->flash('success','created succeeefully');
     }
-
+    public function delete($todoID)
+    {
+      Todo::find($todoID)->delete();
+    }
+    public function toggle($todoID)
+    {
+      $todo=Todo::find($todoID);
+      $todo->completed=!$todo->completed;
+      $todo->save();
+    }
 
     public function render()
     {
    
-        $todos=Todo::paginate(6);
-
+      $todos= Todo::latest()
+      ->where('name', 'like', "%{$this->search}%")
+      ->paginate(6);
         return view('livewire.todo-list',compact('todos'));
     }
 }
