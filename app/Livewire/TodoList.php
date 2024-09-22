@@ -13,11 +13,15 @@ class TodoList extends Component
   #[Rule('required|min:3|max:50')]
   public $name ;
   public $search;
+  public $editedID;
+
+  #[Rule('required|min:3|max:50')]
+  public $updatedName;
 
     public function create()
     {
 
-    
+
       $validated=$this->validateOnly('name');
       Todo::create($validated);
       $this->reset('name');
@@ -34,9 +38,27 @@ class TodoList extends Component
       $todo->save();
     }
 
+    public function edit($id){
+        $this->editedID=$id;
+        $todo=Todo::find($id);
+        $this->updatedName = $todo->name;
+}
+
+    public function update()
+    {
+       $validated=$this->validateOnly('updatedName');
+
+        $todo = Todo::find($this->editedID);
+        $todo->name = $validated['updatedName'];  
+        $todo->save();
+
+        $this->reset('editedID', 'updatedName');
+        session()->flash('success', 'Todo updated successfully');
+    }
+
     public function render()
     {
-   
+
       $todos= Todo::latest()
       ->where('name', 'like', "%{$this->search}%")
       ->paginate(6);
