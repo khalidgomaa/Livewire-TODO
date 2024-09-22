@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Todo;
+use Exception;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -26,10 +27,18 @@ class TodoList extends Component
       Todo::create($validated);
       $this->reset('name');
       session()->flash('success','created succeeefully');
+      $this->resetPage();
     }
     public function delete($todoID)
     {
-      Todo::find($todoID)->delete();
+        try {
+            Todo::findOrFail($todoID)->delete();
+            session()->flash('success', 'Todo deleted successfully');
+        } catch (Exception $e) {
+            session()->flash('error', 'Error deleting the Todo: ' . $e->getMessage());
+            return;
+        }
+
     }
     public function toggle($todoID)
     {
@@ -49,11 +58,15 @@ class TodoList extends Component
        $validated=$this->validateOnly('updatedName');
 
         $todo = Todo::find($this->editedID);
-        $todo->name = $validated['updatedName'];  
+        $todo->name = $validated['updatedName'];
         $todo->save();
 
-        $this->reset('editedID', 'updatedName');
+        $this-> cancelUpdate();
         session()->flash('success', 'Todo updated successfully');
+    }
+    public function cancelUpdate()
+    {
+        $this->reset('editedID','updatedName');
     }
 
     public function render()

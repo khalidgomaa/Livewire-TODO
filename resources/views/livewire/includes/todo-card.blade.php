@@ -1,8 +1,16 @@
 
 <div wire:key="{{ $todo->id }}" class="todo mb-5 card px-5 py-6 bg-white col-span-1 border-t-2 border-blue-500 hover:shadow">
     <div class="flex justify-between space-x-2">
+
+        <div class="flex items-center">
+        @if($todo->completed)
+            <input wire:click="toggle({{ $todo->id }})" type="checkbox" checked>
+        @else
+            <input wire:click="toggle({{ $todo->id }})" type="checkbox" >
+        @endif
+            <!-- for editing box -->
         @if($todo->id==$editedID)
-        <div>
+        <div >
         <input wire:model="updatedName" type="text" placeholder="Todo.."
                             class="bbg-gray-100  text-gray-900 text-sm rounded block w-full p-2.5" >
 
@@ -11,18 +19,15 @@
                             @enderror
 
         </div>
+         <!-- end of editing box -->
         @else
-        <div class="flex items-center">
-        @if($todo->completed)
-            <input wire:click="toggle({{ $todo->id }})" type="checkbox" checked>
-        @else
-            <input wire:click="toggle({{ $todo->id }})" type="checkbox">
-        @endif
-
             <h3 class="ml-2 text-lg text-semibold text-gray-800">{{ $todo->name }}</h3>
+
+            @endif
+
         </div>
 
-        @endif
+
 `
 
         <div class="flex items-center space-x-2">
@@ -48,7 +53,7 @@
 
                 <button wire:click="update({{ $todo->id }})"
                     class="mt-3 px-4 py-2 bg-teal-500 text-white font-semibold rounded hover:bg-teal-600">Update</button>
-                <button
+                <button wire:click="cancelUpdate({{ $todo->id }})"
                     class="mt-3 px-4 py-2 bg-red-500 text-white font-semibold rounded hover:bg-red-600">Cancel</button>
 
     </div>

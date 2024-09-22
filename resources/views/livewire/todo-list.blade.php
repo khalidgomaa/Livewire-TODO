@@ -1,4 +1,6 @@
 <div>
+    
+   @include('livewire.includes.alert')
    @include('livewire.includes.create-box')
    @include('livewire.includes.search-box')
     <div id="todos-list">
