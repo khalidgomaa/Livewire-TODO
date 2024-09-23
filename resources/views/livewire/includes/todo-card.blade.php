@@ -14,7 +14,7 @@
         <input wire:model="updatedName" type="text" placeholder="Todo.."
                             class="bbg-gray-100  text-gray-900 text-sm rounded block w-full p-2.5" >
 
-                            @error($name)
+                            @error('updatedName')
                             <span class="text-red-500 text-xs mt-3 block ">{{ $message }}</span>
                             @enderror
 
