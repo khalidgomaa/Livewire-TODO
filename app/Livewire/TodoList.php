@@ -35,7 +35,7 @@ class TodoList extends Component
             Todo::findOrFail($todoID)->delete();
             session()->flash('success', 'Todo deleted successfully');
         } catch (Exception $e) {
-            session()->flash('error', 'Error deleting the Todo: ' . $e->getMessage());
+            session()->flash('error', 'Error deleting the Todo' );
             return;
         }
 
@@ -55,6 +55,7 @@ class TodoList extends Component
 
     public function update()
     {
+
        $validated=$this->validateOnly('updatedName');
 
         $todo = Todo::find($this->editedID);
