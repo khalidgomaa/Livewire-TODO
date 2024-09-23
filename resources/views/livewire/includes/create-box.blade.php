@@ -13,10 +13,10 @@
                         <input wire:model="name" type="text" id="name" placeholder="Todo.."
                             class="bg-gray-100  text-gray-900 text-sm rounded block w-full p-2.5">
 
-                        @error($name)
+                        @error('name')
                         <span class="text-red-500 text-xs mt-3 block ">{{ $message }}</span>
                         @enderror
-                        
+
 
                     </div>
                     <button wire:click.prevent="create" type="submit"
@@ -24,10 +24,10 @@
                         +</button>
                         @if (session('success'))
                              <span class="text-green-500 text-xs">{{ session('success') }}.</span>
-                
-                            
+
+
                         @endif
-                   
+
 
                 </form>
             </div>
